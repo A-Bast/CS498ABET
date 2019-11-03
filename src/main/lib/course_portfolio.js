@@ -1,37 +1,48 @@
-const Portfolio = require('../models/CoursePortfolio')
-const Course = require('../models/Course')
-const User = require('../models/User')
-const Term = require('../models/Term')
-const StudentLearningOutcome = require('../models/StudentLearningOutcome')
+const Portfolio = require('../models/CoursePortfolio');
+const Course = require('../models/Course');
+const PortfolioSLO = require('../models/CoursePortfolio/StudentLearningOutcome')
+const Artifact = require('../models/CoursePortfolio/Artifact');
 
 module.exports.new = async ({
-	department_id,
-	course_number,
-	instructor,
-	semester,
-	year,
-	num_students,
-	student_learning_outcomes,
-	section
-}) => {
-	// TODO
-    console.log(await Course.query().delete().where('number', '=', parseInt(course_number)))
-    console.log(await User.query().delete().where('linkblue_username', '=', 'test'))
-    var course = await Course.query().insert({ department_id: parseInt(department_id), number: parseInt(course_number) });
-    var user = await User.query().insert({ linkblue_username: 'test' })
-    var new_portfolio = Portfolio.query().insert({
-        course_id: course.id,
-        instructor_id: user.id,
-        semester_term_id: 1, //to be changed later
-        num_students: num_students,
-        section: section,
-        year: year
-    })
-    //end addition
+								department_id,
+								course_number,
+								instructor,
+								semester,
+								year,
+								num_students,
+								student_learning_outcomes,
+								section
+							}) => {
+	//create course if it did not exist
+	var course = await Course.query().insert({ department_id: parseInt(department_id), number: parseInt(course_number) });
+	//create new portfolio object
+	var new_portfolio = await Portfolio.query().insert({
+		course_id: course.id,
+		instructor_id: instructor,
+		semester_term_id: parseInt(semester),
+		num_students: parseInt(num_students),
+		section: parseInt(section),
+		year: parseInt(year)
+	});
+	//Create the links between the portfolio and the SLOs
+	for(x = 0; x < student_learning_outcomes.length; x++){
+		var link = await PortfolioSLO.query().insert({
+			portfolio_id: new_portfolio.id,
+			slo_id: student_learning_outcomes[x]
+		})
+		//Create the 3 artifacts
+		for(y = 1; y <= 3; y++){
+			var new_artifact = await Artifact.query().insert({
+				portfolio_slo_link_id: link.id,
+				index: y
+			})
+			//create evaluations
+		}
+	}
 	return {
-        id: new_portfolio.id
+		id: new_portfolio.id
 	};
-}
+};
 
 
 module.exports.get = async (portfolio_id) => {
