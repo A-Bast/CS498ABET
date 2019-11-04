@@ -3,6 +3,7 @@ const Course = require('../models/Course');
 const PortfolioSLO = require('../models/CoursePortfolio/StudentLearningOutcome')
 const Artifact = require('../models/CoursePortfolio/Artifact');
 
+//new function written by Anna Bast
 module.exports.new = async ({
 								department_id,
 								course_number,
