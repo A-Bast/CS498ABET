@@ -13,6 +13,18 @@ a {
 	font-size: inherit !important;
 }
 
+//-----------------------------------------
+div {
+	background-color: lightgray;
+	padding: 5px;
+	display: none;
+}
+span:hover + div {
+	display: block;
+}
+// Edited by: Jeremy Farmer
+//-----------------------------------------
+
 #course_index_page {
 	text-align: left;
 	table {
