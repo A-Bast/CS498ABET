@@ -29,4 +29,5 @@ module.exports = router;
 
   //TASK: Check if the username matches the ones in the whitelist
   //Edited by: Jeremy Farmer
-  //Viewed by: 
+  //Viewed by: Logan Manns
+  //The code looks fine. It appears to check if user and password are in a whitelist which then redirects to the course page.
