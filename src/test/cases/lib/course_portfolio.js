@@ -6,7 +6,44 @@ const sinon = require('sinon')
 const sandbox = sinon.createSandbox();
 
 describe('Lib - CoursePortfolio', () => {
+	
+    describe('new', () => {
 
+        // this is ran after each unit test
+        afterEach(() => {
+            // this is needed to restore the CoursePortfolio model back to it's original state
+            // we don't want to break all future unit tests
+            sandbox.restore()
+        })
+		var input = {
+			department_id: 1,
+			course_number: 350,
+			instructor: 1,
+			semester: 1,
+			year: 2019,
+			num_students: 32,
+			student_learning_outcomes: [1, 2],
+			section: 2
+		};
+		it('add new Course', async () => {
+			const Course = require('../../../main/models/Course');
+			var expected_output = await Course.query().resultSize() + 1;
+			course_portfolio.new(input);
+			var output = await Course.query().resultSize();
+			expect(output).to.equal(expected_output);
+		});
+		it('add new Portfolio', async () => {
+			const Portfolios = require('../../../main/models/CoursePortfolio');
+			var expected_output = await Portfolios.query().resultSize() + 1;
+			course_portfolio.new(input);
+			var output = await Portfolios.query().resultSize();
+
+			expect(output).to.equal(expected_output);
+		})
+
+    })
+
+		
 	describe('get', () => {
 
 		// this is ran after each unit test
