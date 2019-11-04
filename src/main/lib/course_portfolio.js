@@ -89,6 +89,7 @@ module.exports.get = async (portfolio_id) => {
 	return portfolio
 }
 //Logan Manns implementation for function to display a portfolio for a professor proffessor portfolio
+//Reviewed by Anna Bast
 module.exports.show = async () => 
 {
 	var selector=0
