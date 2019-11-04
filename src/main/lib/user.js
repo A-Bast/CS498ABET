@@ -21,4 +21,4 @@ module.exports.is_whitelisted = is_whitelisted
 
   //TASK: Check if the username matches the ones in the whitelist
   //Edited by: Jeremy Farmer
-  //Viewed by: 
+  //Viewed by: This code looks fine. It appears to check if a given linkblue is in a whitelist or not.
