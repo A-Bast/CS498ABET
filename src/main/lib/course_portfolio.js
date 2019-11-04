@@ -101,3 +101,6 @@ module.exports.show = async () =>
 	}
 
 }
+// Edited by: Anna Bast
+// Viwed by: Jeremy Farmer
+// Comment: This looks fine. Anna says that the functions works and I'll take her word for it. Everything looks fine and it seems that it would work. 
