@@ -1,5 +1,5 @@
 /*
-    Logan Manns
+    Logan Manns | Reviewed by Anna Bast
     function that takes the number of students in a portfolio and randomly selects the indexes
     the number of students selected will be a maximum of 20 percent of the class or 10 students
     if the class size is less than 55 students, 10 are randomly selected
