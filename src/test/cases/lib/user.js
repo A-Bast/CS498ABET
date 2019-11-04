@@ -47,4 +47,4 @@ describe('Lib - User', () => {
 
   //TASK: Check if the username matches the ones in the whitelist
   //Edited by: Jeremy Farmer
-  //Viewed by: 
+  //Viewed by: Logan Manns I have reviewed this.
