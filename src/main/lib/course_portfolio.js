@@ -1,7 +1,9 @@
 const Portfolio = require('../models/CoursePortfolio');
 const Course = require('../models/Course');
-const PortfolioSLO = require('../models/CoursePortfolio/StudentLearningOutcome')
+const PortfolioSLO = require('../models/CoursePortfolio/StudentLearningOutcome');
 const Artifact = require('../models/CoursePortfolio/Artifact');
+const Evaluation = require('../models/CoursePortfolio/Artifact/Evaluation');
+const numStudents = require('./students');
 
 //new function written by Anna Bast
 module.exports.new = async ({
@@ -29,15 +31,23 @@ module.exports.new = async ({
 	for(x = 0; x < student_learning_outcomes.length; x++){
 		var link = await PortfolioSLO.query().insert({
 			portfolio_id: new_portfolio.id,
-			slo_id: student_learning_outcomes[x]
-		})
+			slo_id: parseInt(student_learning_outcomes[x])
+		});
 		//Create the 3 artifacts
 		for(y = 1; y <= 3; y++){
-			var new_artifact = await Artifact.query().insert({
+			let new_artifact = await Artifact.query().insert({
 				portfolio_slo_link_id: link.id,
 				index: y
-			})
+			});
 			//create evaluations
+			let student_indexes = numStudents(num_students);
+			for(z = 0; z <= student_indexes.length; z++){
+				await Evaluation.query().insert({
+					artifact_id: new_artifact.id,
+					evaluation_index: z,
+					student_index: student_indexes[z]
+				})
+			}
 		}
 	}
 	return {
@@ -63,7 +73,7 @@ module.exports.get = async (portfolio_id) => {
 				}
 			}
 		})
-		.findById(portfolio_id)
+		.findById(portfolio_id);
 
 	let portfolio = {
 		portfolio_id: raw_portfolio.id,
@@ -78,7 +88,7 @@ module.exports.get = async (portfolio_id) => {
 			semester: raw_portfolio.semester.value,
 			year: raw_portfolio.year
 		},
-	}
+	};
 
 	for (let i in raw_portfolio.outcomes) {
 		portfolio.outcomes.push(Object.assign({
@@ -87,20 +97,20 @@ module.exports.get = async (portfolio_id) => {
 	}
 
 	return portfolio
-}
+};
 //Logan Manns implementation for function to display a portfolio for a professor proffessor portfolio
 //Reviewed by Anna Bast
 module.exports.show = async () => 
 {
-	var selector=0
-	let portfolio= Portfolio.get(selector)
+	var selector=0;
+	let portfolio= Portfolio.get(selector);
 	while(portfolio.portfolio_id!=null)
 	{
-		print(portfolio)
+		print(portfolio);
 		portfolio=Portfolio.get(selector)
 	}
 
-}
+};
 // Edited by: Anna Bast
 // Viwed by: Jeremy Farmer
 // Comment: This looks fine. Anna says that the functions works and I'll take her word for it. Everything looks fine and it seems that it would work. 
