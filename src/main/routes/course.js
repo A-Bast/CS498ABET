@@ -1,92 +1,72 @@
 var express = require('express');
-var mustache = require('../common/mustache')
-var html = require('../common/html')
-var course_portfolio_lib = require('../lib/course_portfolio')
+var mustache = require('../common/mustache');
+var html = require('../common/html');
+var course_portfolio_lib = require('../lib/course_portfolio');
 var router = express.Router();
 
-const Department = require('../models/Department')
-const TermType = require('../models/TermType')
+const Department = require('../models/Department');
+const TermType = require('../models/TermType');
+const PortfolioSLO = require('../models/CoursePortfolio/StudentLearningOutcome');
+const Metric = require('../models/StudentLearningOutcome/Metric');
 
-const course_manage_page = async (res, course_id) => {
-	let course_info = {
-		student_learning_outcomes: [
-			{
-				index: 1,
-				description: 'n/a',
-				metrics: [
-					{
-						name: 'n/a',
-						exceeds: 'n/a',
-						meets: 'n/a',
-						partially: 'n/a',
-						not: 'n/a'
-					},
-					{
-						name: 'n/a',
-						exceeds: 'n/a',
-						meets: 'n/a',
-						partially: 'n/a',
-						not: 'n/a'
-					},
-					{
-						name: 'n/a',
-						exceeds: 'n/a',
-						meets: 'n/a',
-						partially: 'n/a',
-						not: 'n/a'
-					},
-					{
-						name: 'n/a',
-						exceeds: 'n/a',
-						meets: 'n/a',
-						partially: 'n/a',
-						not: 'n/a'
-					},
-				],
-				artifacts: [
-					{
-						name: 'n/a',
-						evaluations: [
-							{
-								index: 1,
-								evaluation: [
-									{
-										metric: 1,
-										value: 6
-									},
-									{
-										metric: 2,
-										value: 6
-									},
-									{
-										metric: 3,
-										value: 6
-									},
-									{
-										metric: 4,
-										value: 6
-									}
-								]
-							}
-						]
-					}
-				]
+const course_manage_page = async (res, portfolio_id) => {
+	//course_info code written by Anna Bast
+	//select * from portfolio_slo where "portfolio_id" = portfolio_id
+	let portfolioSLOs = await PortfolioSLO.query().where('portfolio_id',portfolio_id);//array of portfolio_slo
+	let course_info = { student_learning_outcomes: []};
+	for(let i = 0; i < portfolioSLOs.length; i++){
+		let new_slo = await portfolioSLOs[i].$relatedQuery('slo');// portfolio_slo has one slo
+		let slo_info = {
+			index: new_slo.index,
+			description: new_slo.description,
+			//slo has many metrics
+			metrics: await new_slo.$relatedQuery('metrics').select('name', 'exceeds', 'meets', 'partially', 'not'),
+			artifacts: []
+		};
+
+		//slo has many metrics
+		let new_metrics = await new_slo.$relatedQuery('metrics');
+		//portfolio_slo has 3 artifacts
+		let new_artifacts = await portfolioSLOs[i].$relatedQuery('artifacts').select('name');
+		for(let j = 0; j < new_artifacts.length; j++){
+			let artifact_info  = {
+				name:  new_artifacts[j].name,
+				evaluations: []
+			};
+
+			//artifact has many evaluations
+			let new_evaluations = await new_artifacts[j].$relatedQuery('evaluations');
+			for(let k = 0; k < new_evaluations.length; k++){
+				let evaluation_info = {
+					index: new_evaluations[k].student_index,
+					evaluation: []
+				};
+				for(let l = 0; l < new_metrics.length; l++){
+					let metric_info = {
+						metric: new_evaluations[k].evaluation_index,
+						value: 6
+					};
+					evaluation_info.evaluation.push(metric_info);
+				}
+				artifact_info.evaluations.push(evaluation_info);
 			}
-		]
-	};
+			slo_info.artifacts.push(artifact_info)
+		}
+		course_info.student_learning_outcomes.push(slo_info);
+	}
 
 	res.render('base_template', {
 		title: 'CS498 Course Portfolio',
 		body: mustache.render('course/manage', course_info)
 	})
-}
+};
 
 const course_new_page = async (res, department = false) => {
-	const departments = await Department.query().select()
+	const departments = await Department.query().select();
 	const semesters = await (await TermType.query()
 		.findById('semester'))
-		.$relatedQuery('terms')
-	let student_learning_outcomes = false
+		.$relatedQuery('terms');
+	let student_learning_outcomes = false;
 
 	if (department) {
 		student_learning_outcomes = await (await Department.query().findById(department))
@@ -102,7 +82,7 @@ const course_new_page = async (res, department = false) => {
 			semesters
 		})
 	})
-}
+};
 
 /* GET course home page */
 router.route('/')
@@ -111,7 +91,7 @@ router.route('/')
 			title: 'Course Portfolios',
 			body: mustache.render('course/index')
 		})
-	}))
+	}));
 
 /* GET course page */
 router.route('/:id')
@@ -136,7 +116,7 @@ router.route('/:id')
 						.filter(entry => entry[0].startsWith('slo_') && entry[1] === 'on')
 						.map(entry => entry[0].split('_')[1]),
 					section: req.body.course_section
-				})
+				});
 
 				res.redirect(302, `/course/${course_portfolio.id}`)
 			} else {
@@ -145,7 +125,7 @@ router.route('/:id')
 		} else {
 			await course_manage_page(res, 499)
 		}
-	}))
+	}));
 
 module.exports = router;
 
