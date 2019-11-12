@@ -36,8 +36,8 @@ module.exports.new = async ({
 		//Create the 3 artifacts
 		for(y = 1; y <= 3; y++){
 			let new_artifact = await Artifact.query().insert({
-				portfolio_slo_link_id: link.id,
-				index: y
+				portfolio_slo_id: link.id,
+				index: y,
 			});
 			//create evaluations
 			let student_indexes = numStudents(num_students);
