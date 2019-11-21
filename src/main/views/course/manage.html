@@ -3,6 +3,11 @@
 	<div class="container row">
 		Course Summary
 	</div>
+    <script>
+        function privacyReminder() {
+            if(confirm("Have you removed identifying information?"));
+        }
+    </script>
 	<div class="container row">
 		{{#student_learning_outcomes}}
 		<h3>Student Learning Outcome {{index}}</h3>
@@ -67,16 +72,28 @@
 						</td>
 						{{/evaluation}}
 						<td>
-							<input name="student-1-submission" type="file"></input>
+							<input name="student-{{index}}-submission" type="file">
 							attach <i class="material-icons">attachment</i>
 						</td>
 					</tr>
 					{{/evaluations}}
 				</table>
-				<input type="submit" />
+                <p onmouseover="privacyCheck(document.getElementById('submit{{index}}'))" >
+                    <input id="submit{{index}}" type="submit" disabled="disabled" />
+                </p>
 			</form>
 		</div>
 		{{/artifacts}}
 		{{/student_learning_outcomes}}
 	</div>
+    <!--Function added by Anna Bast-->
+    <script>
+        function privacyCheck(x){
+            if(x.disabled==true){
+                if(confirm("All identifying information needs to be removed.\nAre you sure you want to submit?")) {
+                x.disabled = false;
+            }
+        }
+        }
+    </script>
 </section>
