@@ -46,7 +46,7 @@
 		</table>
 		{{#artifacts}}
 		<div class="container row">
-			<h3>Artifact 1: {{name}}</h3>
+			<h3>Artifact {{artifact_index}}: {{name}}</h3>
 			<form id="edit_course_form" target="_self" method="POST">
 				<table>
 					<tr>
@@ -78,8 +78,8 @@
 					</tr>
 					{{/evaluations}}
 				</table>
-                <p onmouseover="privacyCheck(document.getElementById('submit{{index}}'))" >
-                    <input id="submit{{index}}" type="submit" disabled="disabled" />
+                <p onmouseover="privacyCheck(document.getElementById('submit{{artifact_index}}'))" >
+                    <input id="submit{{artifact_index}}" type="submit" disabled="disabled" />
                 </p>
 			</form>
 		</div>
