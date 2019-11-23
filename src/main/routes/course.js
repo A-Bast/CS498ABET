@@ -23,11 +23,10 @@ const course_manage_page = async (res, portfolio_id) => {
 			metrics: await new_slo.$relatedQuery('metrics').select('name', 'exceeds', 'meets', 'partially', 'not'),
 			artifacts: []
 		};
-
 		//slo has many metrics
 		let new_metrics = await new_slo.$relatedQuery('metrics');
 		//portfolio_slo has 3 artifacts
-		let new_artifacts = await portfolioSLOs[i].$relatedQuery('artifacts').select('name');
+		let new_artifacts = await portfolioSLOs[i].$relatedQuery('artifacts');
 		for(let j = 0; j < new_artifacts.length; j++){
 			let artifact_info  = {
 				name:  new_artifacts[j].name,
