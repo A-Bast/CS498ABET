@@ -7,7 +7,6 @@ var router = express.Router();
 const Department = require('../models/Department');
 const TermType = require('../models/TermType');
 const PortfolioSLO = require('../models/CoursePortfolio/StudentLearningOutcome');
-const Metric = require('../models/StudentLearningOutcome/Metric');
 
 const course_manage_page = async (res, portfolio_id) => {
 	//course_info code written by Anna Bast
@@ -23,6 +22,7 @@ const course_manage_page = async (res, portfolio_id) => {
 			metrics: await new_slo.$relatedQuery('metrics').select('name', 'exceeds', 'meets', 'partially', 'not'),
 			artifacts: []
 		};
+
 		//slo has many metrics
 		let new_metrics = await new_slo.$relatedQuery('metrics');
 		//portfolio_slo has 3 artifacts
@@ -30,6 +30,7 @@ const course_manage_page = async (res, portfolio_id) => {
 		for(let j = 0; j < new_artifacts.length; j++){
 			let artifact_info  = {
 				name:  new_artifacts[j].name,
+				artifact_index: new_artifacts[j].index,
 				evaluations: []
 			};
 
