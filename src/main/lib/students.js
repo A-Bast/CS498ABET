@@ -1,5 +1,5 @@
 /*
-    Logan Manns | Reviewed by Anna Bast
+    Logan Manns
     function that takes the number of students in a portfolio and randomly selects the indexes
     the number of students selected will be a maximum of 20 percent of the class or 10 students
     if the class size is less than 55 students, 10 are randomly selected
@@ -9,10 +9,15 @@
     10 students are always selected
     if there are less than 10 students in the class, all students are chosen for evaulation
 */
-const Portfolio = require('../models/CoursePortfolio')
-const selectingStudents = (num_students) => 
+
+/*
+I've updated the function to take in a provided course id and query for the number of students
+*/
+const CoursePortfolio = require('../../../../main/models/CoursePortfolio')
+const selectingStudents = async (course_id) => 
 {
-    const numberOfStudents=num_students
+    const slo = await CoursePortfolio.query().findById(course_id)
+    const numberOfStudents=slo.num_students
     var selectedIndex=-1
     if(numberOfStudents<=10)
     {
@@ -21,6 +26,7 @@ const selectingStudents = (num_students) =>
         {
            studentIndexes[i]=i
         }
+        return studentIndexes
     }
     else if(numberOfStudents<55&&numberOfStudents>=10)
     {
@@ -57,6 +63,7 @@ const selectingStudents = (num_students) =>
                 studentIndexes[i]=selectedIndex
             }
         }
+        return studentIndexes
     }
     else if(numberOfStudents>=55)
     {
@@ -96,6 +103,6 @@ const selectingStudents = (num_students) =>
             }
         }
     }
-    return selectedIndexes
+    return studentIndexes
 }
 module.exports.selectingStudents=selectingStudents
