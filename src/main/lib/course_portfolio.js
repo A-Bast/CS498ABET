@@ -55,7 +55,18 @@ module.exports.new = async ({
 	};
 };
 
-
+//Logan Manns Date Additions
+//Setup to make readonly mark for portfolios
+//Also sets up needed values for displaying the date that portfolios will be made read only
+//values are based on the fall 2019 semester and spring 2020 semester for the university of Kentucky
+var currentDateMonth=new Date().getMonth
+var currentDateDay=new Date().getDate
+var current
+var springDueDateDay=22
+var fallDueDateDay=3
+var springDueDateMonth=4
+var fallDueDateMonth=0
+var readOnly=false
 module.exports.get = async (portfolio_id) => {
 	let raw_portfolio = await Portfolio.query()
 		.eager({
@@ -74,7 +85,21 @@ module.exports.get = async (portfolio_id) => {
 			}
 		})
 		.findById(portfolio_id);
-
+	if(currentDateMonth==springDueDateMonth)
+	{
+		if(currentDateDay>=springDueDateDay)
+		{
+			readOnly=true
+		}
+	}
+	if(currentDateMonth==fallDueDateMonth)
+	{
+		if(currentDateDay>=fallDueDateDay)
+		{
+			readOnly=false
+		}
+	}
+		
 	let portfolio = {
 		portfolio_id: raw_portfolio.id,
 		course_id: raw_portfolio.course_id,
