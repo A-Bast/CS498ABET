@@ -13,6 +13,7 @@ a {
 	font-size: inherit !important;
 }
 
+//------------ Phase 1 Code ---------------
 //-----------------------------------------
 .dropdown {
 	position: relative;
@@ -23,6 +24,7 @@ a {
 	display: none;
 	position: absolute;
 	background-color: #f7f7f7;
+	font-size: 15px;
 	min-width: 360px;
 	box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.3);
 	z-index: 1;
@@ -46,6 +48,5 @@ a {
 		}
 	}
 }
-
 //Edited by: Jeremy Farmer
 //Logan Manns. I reviewed this code
