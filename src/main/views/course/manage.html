@@ -61,12 +61,19 @@
 						<td>{{index}}</td>
 						{{#evaluation}}
 						<td>
+							<!-- ______________________________________________________________________________ -->
+							<!-- --------------------- Phase 2 Code ----------------------
+							TASK: The system must use a consistent color scheme when referring to student 
+							evaluation scores (exceeds: blue, meets: green, partially: yellow, not: red).html -->
 							<select name="student-{{index}}-category-{{metric}}">
-								<option value="6">Exceeds</option>
-								<option value="7">Meets</option>
-								<option value="8">Partially</option>
-								<option value="9">Not</option>
-								<option value="10">Does Not Apply</option>
+								<option value="6" style="color:blue;">Exceeds</option>
+								<option value="7" style="color:green;">Meets</option>
+								<option value="8" style="color:yellow;">Partially</option>
+								<option value="9" style="color:red;">Not</option>
+								<option value="10" style="color:gray;">Does Not Apply</option>
+							<!-- Edited by Jeremy Farmer
+								 Source: https://www.w3schools.com/cssref/pr_text_color.asp -->
+							<!-- ______________________________________________________________________________ -->
 							</select>
 							<script>$('[name=student-{{index}}-category-{{metric}}]').val('{{value}}')</script>
 						</td>
