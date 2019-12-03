@@ -37,6 +37,10 @@ app.use(express.static(path.join(project_root, 'public')));
 
 app.use('/', require('./routes/index'))
 app.use('/login', require('./routes/login'));
+app.use('/login2', require('./routes/login2'));  //I added this page which is specifically made for instructors
 app.use('/course', require('./routes/course'));
 
 module.exports = app;
+
+  //TASK: Create a login for instructors
+  //Edited by: Jeremy Farmer
