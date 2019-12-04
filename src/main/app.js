@@ -44,3 +44,5 @@ module.exports = app;
 
   //TASK: Create a login for instructors
   //Edited by: Jeremy Farmer
+  //Reviewed by: Anna Bast
+  //A second version of the login page has been added sucessfully
