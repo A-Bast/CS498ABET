@@ -131,4 +131,6 @@ module.exports = router;
 
 // Edited by: Anna Bast
 // Reviewed by: Jeremy Farmer
+// Phase 3 Reviewed by Logan Manns
 // Comment: This looks good. I confirmed that I checked over it and it looks like it should work.
+// Phase 3 comment: The implemented changes appear to work as intended.
