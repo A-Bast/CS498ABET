@@ -106,3 +106,7 @@ const selectingStudents = async (course_id) =>
     return studentIndexes
 }
 module.exports.selectingStudents=selectingStudents
+/*
+Reviewed by Jeremy Farmer
+This looks correct. The math looks like it would select 20% of the class depending on the number of students. 
+*/
