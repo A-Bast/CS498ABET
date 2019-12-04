@@ -13,7 +13,7 @@
 /*
 I've updated the function to take in a provided course id and query for the number of students
 */
-const CoursePortfolio = require('../../../../main/models/CoursePortfolio')
+const CoursePortfolio = require('../main/models/CoursePortfolio')
 const selectingStudents = async (course_id) => 
 {
     const slo = await CoursePortfolio.query().findById(course_id)
