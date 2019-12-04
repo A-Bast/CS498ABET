@@ -138,4 +138,6 @@ module.exports.show = async () =>
 };
 // Edited by: Anna Bast
 // Viwed by: Jeremy Farmer
+// Phase 3 reviewed by: Logan Manns
 // Comment: This looks fine. Anna says that the functions works and I'll take her word for it. Everything looks fine and it seems that it would work. 
+// Phase 3: Anna's changes look good and should create the objects that are needed for the project.
